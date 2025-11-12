@@ -3,10 +3,10 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
+
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './schemas/user.schema';
-import * as bcrypt from 'bcrypt';
 
 interface UserData {
   username: string;
@@ -19,13 +19,6 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async create(user: UserData): Promise<User> {
-    if (!user) throw new BadRequestException('User is required');
-    if (!user.password || user.password.length < 8)
-      throw new BadRequestException('8 characters password is required');
-
-    const saltRounds = 10;
-    user.password = await bcrypt.hash(user.password, saltRounds);
-
     const newUser = new this.userModel(user);
     return newUser.save();
   }

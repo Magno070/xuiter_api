@@ -1,8 +1,10 @@
-import { Module, MiddlewareConsumer } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+
 import { MongooseModule } from '@nestjs/mongoose';
+import { User, UserSchema } from './schemas/user.schema';
+
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
-import { User, UserSchema } from './schemas/user.schema';
 
 @Module({
   imports: [
